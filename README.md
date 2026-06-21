@@ -23,7 +23,6 @@ A responsive music player built with HTML, CSS, and JavaScript.
 - CSS3
 - JavaScript
 
-
 ## Installation
 
 1. Clone the repository

@@ -4,7 +4,7 @@ A responsive music player built with HTML, CSS, and JavaScript.
 
 ## Live Demo
 
-🔗 https://yourusername.github.io/d-tunes/
+https://08-Dhruvi.github.io/D-tunes-music-player/
 
 ## Features
 

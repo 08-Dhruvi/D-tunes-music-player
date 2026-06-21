@@ -45,27 +45,29 @@ const songs = [
 
 let currentSong = 0;
 
+function smoothPlay(index) {
+
+    document.body.style.opacity =
+        '0.92';
+
+    setTimeout(
+        () => {
+
+            loadSong(
+                index
+            );
+
+            document.body.style.opacity =
+                '1';
+
+        },
+        150
+    );
+
+}
+
 function loadSong(index) {
-    function smoothPlay(index) {
 
-        document.body.style.opacity =
-            '0.92';
-
-        setTimeout(
-            () => {
-
-                loadSong(
-                    index
-                );
-
-                document.body.style.opacity =
-                    '1';
-
-            },
-            150
-        );
-
-    }
 
     const queueList =
         document.getElementById(
@@ -376,7 +378,7 @@ resizeWaveform();
 
 const cards =
     document.querySelectorAll(
-        '.card'
+        '#homeSongs .card'
     );
 
 const songTitle =
@@ -727,6 +729,7 @@ favButtons.forEach(
                         favorites
                     )
                 );
+                updateFavoritesList();
 
             });
 
@@ -742,48 +745,52 @@ const favoritesBtn =
         'favoritesBtn'
     );
 
-homeBtn.addEventListener(
-    'click',
-    () => {
+const discoverBtn = document.getElementById('discoverBtn');
+const yourspaceBtn = document.getElementById('yourspaceBtn');
+const discoverPage = document.getElementById('discoverPage');
+const yourSpacePage = document.getElementById('yourSpacePage');
+const songsContainer = document.getElementById('homeSongs');
 
-        cards.forEach(
-            (card) => {
+homeBtn.addEventListener('click', () => {
+    songsContainer.style.display = 'flex';
+    discoverPage.style.display = 'none';
+    yourSpacePage.style.display = 'none';
 
-                card.style.display =
-                    'block';
+    cards.forEach(card => {
+        card.style.display = 'block';
+    });
+});
 
-            });
+favoritesBtn.addEventListener('click', () => {
+
+    songsContainer.style.display = 'flex';
+    discoverPage.style.display = 'none';
+    yourSpacePage.style.display = 'none';
+
+    cards.forEach((card, index) => {
+
+        if (favorites.includes(index)) {
+            card.style.display = 'block';
+        } else {
+            card.style.display = 'none';
+        }
 
     });
 
-favoritesBtn.addEventListener(
-    'click',
-    () => {
+});
 
-        cards.forEach(
-            (card, index) => {
+discoverBtn.addEventListener('click', () => {
+    songsContainer.style.display = 'none';
+    discoverPage.style.display = 'block';
+    yourSpacePage.style.display = 'none';
+});
 
-                if (
-                    favorites.includes(
-                        index
-                    )
-                ) {
+yourspaceBtn.addEventListener('click', () => {
+    songsContainer.style.display = 'none';
+    discoverPage.style.display = 'none';
+    yourSpacePage.style.display = 'block';
+});
 
-                    card.style.display =
-                        'block';
-
-                }
-
-                else {
-
-                    card.style.display =
-                        'none';
-
-                }
-
-            });
-
-    });
 
 const queueList =
     document.getElementById(
@@ -892,3 +899,62 @@ document.addEventListener(
         }
 
     });
+
+
+
+const discoverCards =
+    document.querySelectorAll('.discover-card');
+
+discoverCards.forEach(card => {
+
+    card.addEventListener('click', () => {
+
+        const index =
+            Number(card.dataset.songIndex);
+
+        currentSong = index;
+
+        loadSong(index);
+
+    });
+
+});
+
+function updateFavoritesList() {
+
+    const favoritesList =
+        document.getElementById('favoritesList');
+
+    favoritesList.innerHTML = '';
+
+    if (favorites.length === 0) {
+
+        favoritesList.innerHTML =
+            '<p>No favorites yet ❤️</p>';
+
+        return;
+    }
+
+    favorites.forEach(index => {
+
+        const item =
+            document.createElement('div');
+
+        item.className =
+            'queue-item';
+
+        item.innerText =
+            songs[index].title;
+
+        item.addEventListener('click', () => {
+
+            currentSong = index;
+            loadSong(index);
+
+        });
+
+        favoritesList.appendChild(item);
+
+    });
+}
+updateFavoritesList();
